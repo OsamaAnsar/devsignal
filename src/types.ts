@@ -1,4 +1,4 @@
-export type Source = "Hacker News" | "GitHub Trending" | "Reddit" | "npm Registry" | "DEV Community" | "Lobsters" | "X";
+export type Source = "Hacker News" | "GitHub Trending" | "Reddit" | "npm Registry" | "DEV Community" | "Lobsters" | "X" | "arXiv" | "Stack Overflow" | "InfoQ";
 export type Signal = {
   id: string; title: string; url: string; source: Source; score: number;
   language?: string; description?: string; topic: string; sentiment: "positive" | "neutral" | "negative";

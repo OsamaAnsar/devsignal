@@ -58,6 +58,35 @@ async function scrapeLobsters(): Promise<Signal[]> {
   return data.slice(0, 15).map(item => makeSignal({ id: `lobsters-${item.short_id}`, title: item.title, url: item.url, source: "Lobsters", score: item.score + item.comment_count, metric: "points", description: item.description ?? item.tags?.join(", ") }));
 }
 
+export function parseArxivFeed(body: string): Signal[] {
+  const $ = cheerio.load(body, { xmlMode: true });
+  return $("entry").toArray().slice(0, 15).map((entry, index) => {
+    const url = $(entry).find("id").text().trim();
+    const categories = $(entry).find("category").toArray().map(node => $(node).attr("term")).filter(Boolean).join(", ");
+    const abstract = $(entry).find("summary").text().replace(/\s+/g, " ").trim();
+    return makeSignal({ id: `arxiv-${url.split("/").pop() ?? index}`, title: $(entry).find("title").text().replace(/\s+/g, " ").trim(), url, source: "arXiv", score: 15 - index, metric: "rank", description: `${abstract.slice(0, 280)}${abstract.length > 280 ? "…" : ""}${categories ? ` · ${categories}` : ""}` });
+  });
+}
+async function scrapeArxiv(): Promise<Signal[]> {
+  const query = encodeURIComponent("cat:cs.AI OR cat:cs.SE OR cat:cs.CL");
+  return parseArxivFeed(await html(`https://export.arxiv.org/api/query?search_query=${query}&start=0&max_results=15&sortBy=submittedDate&sortOrder=descending`));
+}
+
+type StackQuestions = { items: Array<{ question_id: number; title: string; link: string; score: number; answer_count: number; view_count: number; tags: string[] }> };
+async function scrapeStackOverflow(): Promise<Signal[]> {
+  const data = await json<StackQuestions>("https://api.stackexchange.com/2.3/questions?site=stackoverflow&pagesize=15&order=desc&sort=hot&tagged=javascript");
+  return data.items.map(item => makeSignal({ id: `so-${item.question_id}`, title: item.title.replaceAll("&quot;", '"').replaceAll("&#39;", "'").replaceAll("&amp;", "&"), url: item.link, source: "Stack Overflow", score: Math.max(0, item.score) + item.answer_count * 2 + Math.round(item.view_count / 100), metric: "engagement", language: item.tags.find(tag => /javascript|typescript|python|rust|java|go|c\+\+/i.test(tag)), description: `${item.answer_count} answers · ${item.view_count.toLocaleString()} views · ${item.tags.slice(0, 4).join(", ")}` }));
+}
+
+export function parseInfoQFeed(body: string): Signal[] {
+  const $ = cheerio.load(body, { xmlMode: true });
+  return $("item").toArray().slice(0, 15).map((item, index) => {
+    const description = cheerio.load($(item).find("description").text()).text().replace(/\s+/g, " ").trim();
+    return makeSignal({ id: `infoq-${index}-${$(item).find("guid").text().trim()}`, title: $(item).find("title").text().trim(), url: $(item).find("link").text().trim(), source: "InfoQ", score: 15 - index, metric: "rank", description: description.slice(0, 280) });
+  });
+}
+async function scrapeInfoQ(): Promise<Signal[]> { return parseInfoQFeed(await html("https://feed.infoq.com/")); }
+
 type XSearch = { data?: Array<{ id: string; text: string; public_metrics?: { like_count: number; repost_count: number; reply_count: number } }> };
 async function scrapeX(): Promise<Signal[]> {
   if (!process.env.X_BEARER_TOKEN) return [];
@@ -108,7 +137,8 @@ async function main() {
     ["Hacker News", html("https://news.ycombinator.com/").then(parseHackerNews)],
     ["GitHub Trending", html("https://github.com/trending?since=daily").then(parseGitHubTrending)],
     ["Reddit", scrapeReddit()],
-    ["npm Registry", scrapeNpm()], ["DEV Community", scrapeDev()], ["Lobsters", scrapeLobsters()], ["X", scrapeX()]
+    ["npm Registry", scrapeNpm()], ["DEV Community", scrapeDev()], ["Lobsters", scrapeLobsters()],
+    ["arXiv", scrapeArxiv()], ["Stack Overflow", scrapeStackOverflow()], ["InfoQ", scrapeInfoQ()], ["X", scrapeX()]
   ];
   const settled = await Promise.allSettled(tasks.map(([, task]) => task));
   const signals = settled.flatMap((result, index) => { if (result.status === "fulfilled") { console.log(`${tasks[index][0]}: ${result.value.length} signals`); return result.value; } console.warn(`${tasks[index][0]} failed:`, result.reason); return []; });

@@ -6,13 +6,13 @@
 
 **A quieter way to read the developer internet.**
 
-DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, and optional Reddit/X feeds; turns the results into typed technology signals; and presents the daily picture through an editorial React dashboard. It supports both scheduled OpenAI enrichment and free, private AI inference in the browser.
+DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, arXiv, Stack Overflow, InfoQ, and optional Reddit/X feeds; turns the results into typed technology signals; and presents the daily picture through an editorial React dashboard. It supports both scheduled OpenAI enrichment and free, private AI inference in the browser.
 
 **[Open the live dashboard →](https://osamaansar.github.io/devsignal/)**
 
 ## What it does
 
-- Collects public signals from Hacker News, GitHub Trending, npm Registry, DEV Community, and Lobsters without credentials.
+- Collects public signals from Hacker News, GitHub Trending, npm Registry, DEV Community, Lobsters, arXiv, Stack Overflow, and InfoQ without credentials.
 - Supports Reddit through its OAuth Data API and X through its recent-search API when their optional credentials are configured.
 - Normalizes titles, descriptions, source scores, languages, topics, and sentiment into one JSON snapshot.
 - Visualizes topic momentum, sentiment distribution, trending languages, and the highest-momentum signals.
@@ -36,9 +36,10 @@ The local model is downloaded on first use and cached by the browser. Headlines 
 ## Architecture
 
 ```text
-HN · GitHub · npm ─┐
-DEV · Lobsters ────┼─ TypeScript collectors ─→ normalized signals
-Reddit · X* ───────┘                          │
+HN · GitHub · npm ─────────┐
+DEV · Lobsters · InfoQ ────┼─ TypeScript collectors ─→ normalized signals
+arXiv · Stack Overflow ────┤                          │
+Reddit · X* ───────────────┘                          │
                                                     ├─ OpenAI (optional, Actions secret)
                                                     └─ deterministic fallback
                                                                │
