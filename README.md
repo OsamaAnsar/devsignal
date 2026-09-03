@@ -17,6 +17,9 @@ DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, a
 - Supports Reddit through its OAuth Data API and X through its recent-search API when their optional credentials are configured.
 - Normalizes titles, descriptions, source scores, languages, topics, and sentiment into one JSON snapshot.
 - Visualizes topic momentum, sentiment distribution, trending languages, and the highest-momentum signals.
+- Connects related items across sources into evidence-backed technology clusters.
+- Maps clusters on an interactive radar using cross-source reach and normalized momentum.
+- Stores up to 90 daily observations so real rising and cooling trends can emerge over time.
 - Lets visitors search and filter the daily index.
 - Runs a quantized DistilBERT model locally through Transformers.js when **Run free local AI** is selected.
 - Recalculates sentiment, confidence scores, per-item AI takes, the briefing, and the **AI Signal Pulse** on-device.

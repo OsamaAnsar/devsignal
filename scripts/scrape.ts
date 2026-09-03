@@ -1,8 +1,9 @@
 import * as cheerio from "cheerio";
 import OpenAI from "openai";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { makeSignal, summarize } from "../src/lib/analyze.ts";
-import type { Signal, Snapshot } from "../src/types.ts";
+import { buildTrendClusters } from "../src/lib/trends.ts";
+import type { Signal, Snapshot, TrendHistoryDay } from "../src/types.ts";
 
 const headers = { "User-Agent": "DevSignal/1.0 (+https://github.com/OsamaAnsar/devsignal)" };
 async function html(url: string) { const r = await fetch(url, { headers }); if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.text(); }
@@ -178,6 +179,12 @@ async function main() {
   if (!signals.length) throw new Error("All scraper sources failed; preserving the previous snapshot.");
   const ai = await enhanceWithAi(signals); const snapshot: Snapshot = { generatedAt: new Date().toISOString(), mode: ai ? "openai" : "deterministic", model: ai?.model, signals: ai?.signals ?? signals, summary: ai?.summary ?? summarize(signals) };
   await mkdir("public/data", { recursive: true }); await writeFile("public/data/snapshot.json", JSON.stringify(snapshot, null, 2) + "\n");
+  let history: TrendHistoryDay[] = [];
+  try { history = JSON.parse(await readFile("public/data/history.json", "utf8")) as TrendHistoryDay[]; } catch { /* first observation */ }
+  const date = snapshot.generatedAt.slice(0, 10); const clusters = buildTrendClusters(snapshot.signals);
+  const observation: TrendHistoryDay = { date, total: snapshot.signals.length, trends: clusters.map(cluster => ({ name: cluster.name, momentum: cluster.momentum, sources: cluster.sources.length, items: cluster.signals.length })) };
+  history = [...history.filter(day => day.date !== date), observation].sort((a,b) => a.date.localeCompare(b.date)).slice(-90);
+  await writeFile("public/data/history.json", JSON.stringify(history, null, 2) + "\n");
   console.log(`Collected ${signals.length} signals (${snapshot.mode} analysis).`);
 }
 if (process.argv[1]?.includes("scrape")) main().catch(e => { console.error(e); process.exit(1); });

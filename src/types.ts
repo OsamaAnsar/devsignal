@@ -6,3 +6,4 @@ export type Signal = {
   kind?: "article" | "video"; imageUrl?: string; publishedAt?: string;
 };
 export type Snapshot = { generatedAt: string; mode: "deterministic" | "openai"; model?: string; signals: Signal[]; summary: string[] };
+export type TrendHistoryDay = { date: string; total: number; trends: Array<{ name: string; momentum: number; sources: number; items: number }> };
