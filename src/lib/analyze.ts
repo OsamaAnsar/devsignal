@@ -35,4 +35,4 @@ export function summarize(signals: Signal[]): string[] {
   ];
 }
 
-export const sourceLabel = (source: Source) => source === "Hacker News" ? "HN" : "GH";
+export const sourceLabel = (source: Source) => ({ "Hacker News": "HN", "GitHub Trending": "GH", Reddit: "RD", "npm Registry": "NPM", "DEV Community": "DEV", Lobsters: "LOB", X: "X" })[source];

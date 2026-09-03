@@ -6,13 +6,14 @@
 
 **A quieter way to read the developer internet.**
 
-DevSignal collects Hacker News and GitHub Trending, turns the results into typed technology signals, and presents the daily picture through an editorial React dashboard. It supports both scheduled OpenAI enrichment and free, private AI inference in the browser.
+DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, and optional Reddit/X feeds; turns the results into typed technology signals; and presents the daily picture through an editorial React dashboard. It supports both scheduled OpenAI enrichment and free, private AI inference in the browser.
 
 **[Open the live dashboard →](https://osamaansar.github.io/devsignal/)**
 
 ## What it does
 
-- Scrapes up to 20 public items from Hacker News and 20 repositories from GitHub Trending.
+- Collects public signals from Hacker News, GitHub Trending, npm Registry, DEV Community, and Lobsters without credentials.
+- Supports Reddit through its OAuth Data API and X through its recent-search API when their optional credentials are configured.
 - Normalizes titles, descriptions, source scores, languages, topics, and sentiment into one JSON snapshot.
 - Visualizes topic momentum, sentiment distribution, trending languages, and the highest-momentum signals.
 - Lets visitors search and filter the daily index.
@@ -35,9 +36,9 @@ The local model is downloaded on first use and cached by the browser. Headlines 
 ## Architecture
 
 ```text
-Hacker News ─────┐
-                 ├─ TypeScript + Cheerio scraper ─→ normalized signals
-GitHub Trending ─┘                                  │
+HN · GitHub · npm ─┐
+DEV · Lobsters ────┼─ TypeScript collectors ─→ normalized signals
+Reddit · X* ───────┘                          │
                                                     ├─ OpenAI (optional, Actions secret)
                                                     └─ deterministic fallback
                                                                │
@@ -74,6 +75,10 @@ OPENAI_API_KEY="your-key" npm run scrape
 
 For GitHub Pages, create an Actions repository secret named `OPENAI_API_KEY`. The key is read only by the Actions runner and is never included in the client bundle or published snapshot. If the key is missing or inference fails, DevSignal automatically uses its deterministic fallback.
 
+### Optional Reddit and X sources
+
+Reddit requires `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET`. X requires `X_BEARER_TOKEN`. Add these as GitHub Actions secrets to activate the corresponding collectors. Missing credentials simply skip those sources; they never break the remaining daily scrape.
+
 ## Commands
 
 ```bash
@@ -96,7 +101,7 @@ npm run build      # create the production build
 
 ## Data and security
 
-- Only public Hacker News and GitHub Trending pages are scraped.
+- Only public pages and documented APIs are used. Credential-gated Reddit and X collectors are disabled by default.
 - The OpenAI key belongs in an environment variable or GitHub Actions secret—never in source code.
 - Local AI inference sends no analyzed headline or description to OpenAI.
 - Every dashboard item links back to its original source.
