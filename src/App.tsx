@@ -14,7 +14,8 @@ export default function App() {
   const signals = localSignals ?? data?.signals ?? [];
   const filtered = useMemo(() => signals.filter(s => (source === "All" || s.source === source) && `${s.title} ${s.description ?? ""}`.toLowerCase().includes(query.toLowerCase())), [signals, source, query]);
   const topics = group(filtered, "topic"); const languages = group(filtered.filter(x=>x.language), "language").slice(0,6); const sentiment = group(filtered, "sentiment");
-  const top = [...filtered].sort((a,b)=>b.score-a.score).slice(0,8);
+  const sourceMax = filtered.reduce<Record<string, number>>((max, signal) => ({ ...max, [signal.source]: Math.max(max[signal.source] ?? 0, signal.score) }), {});
+  const top = [...filtered].sort((a,b)=>(b.score/(sourceMax[b.source]||1))-(a.score/(sourceMax[a.source]||1))).slice(0,8);
   if (!data) return <main className="loading">Reading the signal…</main>;
   const positiveCount = signals.filter(signal => signal.sentiment === "positive").length;
   const negativeCount = signals.filter(signal => signal.sentiment === "negative").length;
