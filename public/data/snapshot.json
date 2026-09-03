@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T12:45:15.694Z",
+  "generatedAt": "2026-09-03T12:46:14.159Z",
   "mode": "deterministic",
   "signals": [
     {
@@ -220,7 +220,7 @@
       "title": "DietrichGebert / ponytail",
       "url": "https://github.com/DietrichGebert/ponytail",
       "source": "GitHub Trending",
-      "score": 122792,
+      "score": 122793,
       "language": "JavaScript",
       "description": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
       "topic": "AI & Agents",
