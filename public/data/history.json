@@ -4,16 +4,16 @@
     "total": 144,
     "trends": [
       {
+        "name": "Language models",
+        "momentum": 64,
+        "sources": 7,
+        "items": 24
+      },
+      {
         "name": "AI agents",
         "momentum": 63,
         "sources": 7,
         "items": 65
-      },
-      {
-        "name": "Language models",
-        "momentum": 63,
-        "sources": 7,
-        "items": 24
       },
       {
         "name": "Security",
@@ -22,14 +22,8 @@
         "items": 3
       },
       {
-        "name": "Open source",
-        "momentum": 46,
-        "sources": 4,
-        "items": 6
-      },
-      {
         "name": "JavaScript",
-        "momentum": 41,
+        "momentum": 42,
         "sources": 2,
         "items": 19
       },
@@ -38,6 +32,12 @@
         "momentum": 36,
         "sources": 3,
         "items": 6
+      },
+      {
+        "name": "Open source",
+        "momentum": 34,
+        "sources": 3,
+        "items": 5
       },
       {
         "name": "Cloud infrastructure",
