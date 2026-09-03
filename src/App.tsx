@@ -1,0 +1,29 @@
+import { useEffect, useMemo, useState } from "react";
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Activity, ArrowUpRight, Bot, Braces, Github, Radio, Search, Sparkles } from "lucide-react";
+import type { Signal, Snapshot } from "./types";
+
+const colors = ["#8b5cf6", "#22d3ee", "#f59e0b", "#34d399", "#fb7185", "#94a3b8"];
+const group = (items: Signal[], key: keyof Signal) => Object.entries(items.reduce<Record<string, number>>((a, x) => { const k = String(x[key] ?? "Unknown"); a[k] = (a[k] ?? 0) + 1; return a; }, {})).map(([name, value]) => ({ name, value })).sort((a,b)=>b.value-a.value);
+
+export default function App() {
+  const [data, setData] = useState<Snapshot | null>(null); const [source, setSource] = useState("All"); const [query, setQuery] = useState("");
+  useEffect(() => { fetch(`${import.meta.env.BASE_URL}data/snapshot.json`).then(r => r.json()).then(setData); }, []);
+  const filtered = useMemo(() => (data?.signals ?? []).filter(s => (source === "All" || s.source === source) && `${s.title} ${s.description ?? ""}`.toLowerCase().includes(query.toLowerCase())), [data, source, query]);
+  const topics = group(filtered, "topic"); const languages = group(filtered.filter(x=>x.language), "language").slice(0,6); const sentiment = group(filtered, "sentiment");
+  const top = [...filtered].sort((a,b)=>b.score-a.score).slice(0,8);
+  if (!data) return <main className="loading"><Sparkles/> Reading the signal…</main>;
+  return <div className="shell">
+    <header><a className="brand" href="#"><span><Radio/></span>DevSignal</a><nav><a href="#dashboard">Dashboard</a><a href="#signals">Signals</a><a href="https://github.com/OsamaAnsar/devsignal"><Github size={18}/></a></nav></header>
+    <main>
+      <section className="hero"><div><div className="eyebrow"><span/> LIVE TECHNOLOGY INTELLIGENCE</div><h1>See what developers<br/><em>care about next.</em></h1><p>A JavaScript scraper turns the daily noise from Hacker News and GitHub Trending into structured, AI-enriched market signals.</p><div className="status"><Activity size={16}/> {data.signals.length} signals analyzed <b>•</b> {data.mode === "openai" ? "OpenAI enriched" : "Deterministic demo"}</div></div><div className="orb"><Bot/><span>AI<br/>ANALYSIS</span></div></section>
+      <section className="insights"><div className="section-label"><Sparkles/> AI BRIEFING</div><div className="insight-grid">{data.summary.map((x,i)=><article key={x}><b>0{i+1}</b><p>{x}</p></article>)}</div></section>
+      <section id="dashboard" className="dashboard"><div className="section-head"><div><div className="section-label"><Braces/> SIGNAL MAP</div><h2>Today’s technology pulse</h2></div><div className="filters"><div className="search"><Search size={16}/><input aria-label="Search signals" placeholder="Filter signals…" value={query} onChange={e=>setQuery(e.target.value)}/></div>{["All","Hacker News","GitHub Trending"].map(x=><button className={source===x?"active":""} onClick={()=>setSource(x)} key={x}>{x}</button>)}</div></div>
+        <div className="charts"><article className="wide"><h3>Topic momentum</h3><ResponsiveContainer width="100%" height={260}><BarChart data={topics} layout="vertical" margin={{left:20}}><CartesianGrid stroke="#1e293b" horizontal={false}/><XAxis type="number" hide/><YAxis type="category" dataKey="name" width={125} tick={{fill:"#94a3b8",fontSize:12}} axisLine={false} tickLine={false}/><Tooltip contentStyle={{background:"#0f172a",border:"1px solid #334155"}}/><Bar dataKey="value" radius={[0,8,8,0]}>{topics.map((_,i)=><Cell fill={colors[i%colors.length]} key={i}/>)}</Bar></BarChart></ResponsiveContainer></article>
+        <article><h3>Sentiment mix</h3><ResponsiveContainer width="100%" height={210}><PieChart><Pie data={sentiment} dataKey="value" innerRadius={55} outerRadius={82} paddingAngle={4}>{sentiment.map((_,i)=><Cell fill={colors[(i+3)%colors.length]} key={i}/>)}</Pie><Tooltip contentStyle={{background:"#0f172a",border:"1px solid #334155"}}/></PieChart></ResponsiveContainer><div className="legend">{sentiment.map((x,i)=><span key={x.name}><i style={{background:colors[(i+3)%colors.length]}}/>{x.name} {x.value}</span>)}</div></article>
+        <article><h3>Trending languages</h3><ResponsiveContainer width="100%" height={230}><AreaChart data={languages}><defs><linearGradient id="g"><stop offset="0" stopColor="#22d3ee" stopOpacity=".7"/><stop offset="1" stopColor="#22d3ee" stopOpacity=".05"/></linearGradient></defs><XAxis dataKey="name" tick={{fill:"#94a3b8",fontSize:11}} axisLine={false} tickLine={false}/><YAxis hide/><Tooltip contentStyle={{background:"#0f172a",border:"1px solid #334155"}}/><Area type="monotone" dataKey="value" stroke="#22d3ee" fill="url(#g)"/></AreaChart></ResponsiveContainer></article></div>
+      </section>
+      <section id="signals" className="signals"><div className="section-head"><div><div className="section-label"><Activity/> MOMENTUM BOARD</div><h2>Signals worth watching</h2></div><small>Updated {new Date(data.generatedAt).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}</small></div><div className="signal-list">{top.map((s,i)=><a href={s.url} target="_blank" rel="noreferrer" key={s.id}><b>{String(i+1).padStart(2,"0")}</b><div><span className="source">{s.source}</span><h3>{s.title}</h3><p>{s.description || `${s.topic} signal from ${s.source}.`}</p><div><mark>{s.topic}</mark>{s.language&&<mark>{s.language}</mark>}</div></div><aside><strong>{s.score.toLocaleString()}</strong><small>{s.source==="Hacker News"?"points":"stars"}</small><ArrowUpRight/></aside></a>)}</div></section>
+    </main><footer><span>DevSignal</span><p>Public web data, transformed into explainable signals.</p><a href="https://github.com/OsamaAnsar/devsignal">View source <ArrowUpRight size={14}/></a></footer>
+  </div>;
+}
