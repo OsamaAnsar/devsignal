@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T12:26:58.734Z",
+  "generatedAt": "2026-09-03T12:28:27.726Z",
   "mode": "deterministic",
   "signals": [
     {
@@ -7,7 +7,7 @@
       "title": "Audacity 4.0",
       "url": "https://github.com/audacity/audacity/releases/tag/Audacity-4.0.0",
       "source": "Hacker News",
-      "score": 125,
+      "score": 139,
       "topic": "Other",
       "sentiment": "neutral"
     },
@@ -16,7 +16,7 @@
       "title": "Pre-Release of Polars 2.0",
       "url": "https://pola.rs/posts/announcing-polars-2/",
       "source": "Hacker News",
-      "score": 228,
+      "score": 229,
       "topic": "Other",
       "sentiment": "neutral"
     },
@@ -25,7 +25,7 @@
       "title": "The Browser's Main Thread Is Expensive",
       "url": "https://kciter.so/posts/the-expensive-main-thread/en/",
       "source": "Hacker News",
-      "score": 164,
+      "score": 168,
       "topic": "Web & Product",
       "sentiment": "neutral"
     },
@@ -34,7 +34,7 @@
       "title": "Invisible Companies",
       "url": "https://colossus.com/article/invisible-companies/",
       "source": "Hacker News",
-      "score": 16,
+      "score": 17,
       "topic": "Other",
       "sentiment": "neutral"
     },
@@ -70,7 +70,7 @@
       "title": "What I Learned from My Mom (1941-2026)",
       "url": "https://experimentalliving.substack.com/p/what-i-learned-from-my-mom-1941-2026",
       "source": "Hacker News",
-      "score": 54,
+      "score": 58,
       "topic": "Other",
       "sentiment": "neutral"
     },
@@ -111,20 +111,11 @@
       "sentiment": "neutral"
     },
     {
-      "id": "hn-49548625",
-      "title": "4.5B Posts Scraped from TikTok",
-      "url": "https://tiktok-api.seeksocial.io/",
-      "source": "Hacker News",
-      "score": 36,
-      "topic": "Other",
-      "sentiment": "neutral"
-    },
-    {
       "id": "hn-49511493",
       "title": "The Computer Museum of America reclamation project",
       "url": "https://computer-museum.org/wp/",
       "source": "Hacker News",
-      "score": 57,
+      "score": 59,
       "topic": "Other",
       "sentiment": "neutral"
     },
@@ -142,7 +133,7 @@
       "title": "Can I opt out of my input or output data being used for training?",
       "url": "https://help.mistral.ai/en/articles/455207-can-i-opt-out-of-my-input-or-output-data-being-used-for-training",
       "source": "Hacker News",
-      "score": 465,
+      "score": 466,
       "topic": "Other",
       "sentiment": "neutral"
     },
@@ -151,7 +142,7 @@
       "title": "Fable 5.1 World Modeling",
       "url": "https://github.com/PhiloLabs/fable51-worlds",
       "source": "Hacker News",
-      "score": 282,
+      "score": 283,
       "topic": "Other",
       "sentiment": "neutral"
     },
@@ -169,7 +160,7 @@
       "title": "Reverse Engineering Unknown File Formats with ImHex",
       "url": "https://werwolv.net/posts/file_format_reverse_engineering/",
       "source": "Hacker News",
-      "score": 219,
+      "score": 220,
       "topic": "Other",
       "sentiment": "neutral"
     },
@@ -183,11 +174,20 @@
       "sentiment": "neutral"
     },
     {
+      "id": "hn-49543530",
+      "title": "Launch HN: RonanRX (YC S26) – Personalized Peptides and GLP-1s",
+      "url": "item?id=49543530",
+      "source": "Hacker News",
+      "score": 71,
+      "topic": "Other",
+      "sentiment": "positive"
+    },
+    {
       "id": "gh-0-/fmtlib/fmt",
       "title": "fmtlib / fmt",
       "url": "https://github.com/fmtlib/fmt",
       "source": "GitHub Trending",
-      "score": 24729,
+      "score": 24730,
       "language": "C++",
       "description": "A modern formatting library",
       "topic": "Developer Tools",
@@ -198,7 +198,7 @@
       "title": "mattpocock / skills",
       "url": "https://github.com/mattpocock/skills",
       "source": "GitHub Trending",
-      "score": 246173,
+      "score": 246175,
       "language": "Shell",
       "description": "Skills for Real Engineers. Straight from my .agents directory.",
       "topic": "Other",
@@ -220,7 +220,7 @@
       "title": "DietrichGebert / ponytail",
       "url": "https://github.com/DietrichGebert/ponytail",
       "source": "GitHub Trending",
-      "score": 122761,
+      "score": 122763,
       "language": "JavaScript",
       "description": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
       "topic": "AI & Agents",
@@ -253,7 +253,7 @@
       "title": "JuliusBrussee / caveman",
       "url": "https://github.com/JuliusBrussee/caveman",
       "source": "GitHub Trending",
-      "score": 102890,
+      "score": 102891,
       "language": "Go",
       "description": "🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like caveman",
       "topic": "Other",
@@ -264,7 +264,7 @@
       "title": "blader / humanizer",
       "url": "https://github.com/blader/humanizer",
       "source": "GitHub Trending",
-      "score": 41035,
+      "score": 41036,
       "language": "Python",
       "description": "Agent skill that removes signs of AI-generated writing from text",
       "topic": "AI & Agents",
@@ -297,7 +297,7 @@
       "title": "bannedbook / fanqiang",
       "url": "https://github.com/bannedbook/fanqiang",
       "source": "GitHub Trending",
-      "score": 51896,
+      "score": 51897,
       "language": "Kotlin",
       "description": "翻墙-科学上网",
       "topic": "Other",
@@ -308,7 +308,7 @@
       "title": "addyosmani / agent-skills",
       "url": "https://github.com/addyosmani/agent-skills",
       "source": "GitHub Trending",
-      "score": 91851,
+      "score": 91852,
       "language": "JavaScript",
       "description": "Production-grade engineering skills for AI coding agents.",
       "topic": "AI & Agents",
@@ -329,7 +329,7 @@
       "title": "magnitudedev / magnitude",
       "url": "https://github.com/magnitudedev/magnitude",
       "source": "GitHub Trending",
-      "score": 1764,
+      "score": 1765,
       "language": "TypeScript",
       "description": "Open source inference server that runs the best local models for your hardware, plugged into the agent you already use. Works with Pi, OpenCode, Hermes, OpenClaw, Codex, Claude Code, Oh My Pi, and Cline.",
       "topic": "AI & Agents",
@@ -362,7 +362,7 @@
       "title": "debpalash / VoiceStudio",
       "url": "https://github.com/debpalash/VoiceStudio",
       "source": "GitHub Trending",
-      "score": 15666,
+      "score": 15668,
       "language": "Python",
       "description": "VoiceStudio is the open-source, fully-local ElevenLabs alternative — voice cloning, voice design, video dubbing, dictation, transcription & audiobook creation in 646 languages.",
       "topic": "Other",
@@ -373,7 +373,7 @@
       "title": "f / prompts.chat",
       "url": "https://github.com/f/prompts.chat",
       "source": "GitHub Trending",
-      "score": 168711,
+      "score": 168713,
       "language": "HTML",
       "description": "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source — self-host for your organization with complete privacy.",
       "topic": "Security",
