@@ -1,5 +1,7 @@
 # DevSignal
 
+**[Live dashboard →](https://osamaansar.github.io/devsignal/)**
+
 [![CI and deploy](https://github.com/OsamaAnsar/devsignal/actions/workflows/ci.yml/badge.svg)](https://github.com/OsamaAnsar/devsignal/actions/workflows/ci.yml)
 
 An AI-powered technology intelligence dashboard. A TypeScript scraper collects Hacker News and GitHub Trending, normalizes the results, enriches them with topics and sentiment, and renders the daily signal as an interactive React dashboard.
