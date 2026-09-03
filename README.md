@@ -20,8 +20,9 @@ DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, a
 - Connects related items across sources into evidence-backed technology clusters.
 - Maps clusters on an interactive radar using cross-source reach and normalized momentum.
 - Stores up to 90 daily observations so real rising and cooling trends can emerge over time.
+- Includes **Ask DevSignal**, an on-device semantic search that answers natural-language questions with ranked, clickable evidence from the collected sources.
 - Lets visitors search and filter the daily index.
-- Runs a quantized DistilBERT model locally through Transformers.js when **Run free local AI** is selected.
+- Starts a quantized DistilBERT model automatically through Transformers.js, analyzes a balanced sample in small batches, and caches the result for the current edition.
 - Classifies wording into announcements/progress, general updates, or problems/risks; it does not rate whether a technology is good or bad.
 - Recalculates story type, confidence scores, per-item AI takes, and the briefing on-device.
 - Creates a shareable daily brief with the Web Share API or clipboard fallback.
@@ -33,10 +34,11 @@ DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, a
 | Mode | Where it runs | Key required | What it produces |
 | --- | --- | --- | --- |
 | Local AI | Visitor's browser | No | Story-type wording, confidence, AI takes, and a reactive briefing |
+| Semantic AI | Visitor's browser | No | Meaning-based question search with five cited source matches |
 | OpenAI | GitHub Actions | `OPENAI_API_KEY` | Semantic topics, story-type wording, AI takes, confidence, and three briefing insights |
 | Rules fallback | Data pipeline | No | Transparent keyword topics, story types, and summary statistics |
 
-The local model is downloaded on first use and cached by the browser. Headlines stay on the visitor's device during local inference.
+The story-classification model starts shortly after the page loads, reports separate download and analysis progress, processes small batches, and caches results for that daily edition. Ask DevSignal loads its compact embedding model only when a visitor asks a question. Questions and story text stay on the visitor's device during both workflows.
 
 ## Architecture
 
@@ -55,7 +57,10 @@ Reddit · X* ───────────────┘                   
                                                                ▼
                                               React + Recharts dashboard
                                                                │
-                                                               └─ DistilBERT in browser (optional)
+                                                  ┌────────────┴────────────┐
+                                                  │                         │
+                                      DistilBERT story analysis   MiniLM semantic search
+                                              in browser                in browser
 ```
 
 The scraper tolerates one source failing, but preserves the previous snapshot if every source fails. Public pages are fetched once per scheduled run with an identifying user agent; no authenticated pages or personal data are collected.
