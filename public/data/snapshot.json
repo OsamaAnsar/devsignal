@@ -1,0 +1,399 @@
+{
+  "generatedAt": "2026-09-03T12:23:13.444Z",
+  "mode": "deterministic",
+  "signals": [
+    {
+      "id": "hn-49548395",
+      "title": "Audacity 4.0",
+      "url": "https://github.com/audacity/audacity/releases/tag/Audacity-4.0.0",
+      "source": "Hacker News",
+      "score": 107,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49546753",
+      "title": "Pre-Release of Polars 2.0",
+      "url": "https://pola.rs/posts/announcing-polars-2/",
+      "source": "Hacker News",
+      "score": 226,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49522137",
+      "title": "The Browser's Main Thread Is Expensive",
+      "url": "https://kciter.so/posts/the-expensive-main-thread/en/",
+      "source": "Hacker News",
+      "score": 161,
+      "topic": "Web & Product",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49548625",
+      "title": "4.5B Posts Scraped from TikTok",
+      "url": "https://tiktok-api.seeksocial.io/",
+      "source": "Hacker News",
+      "score": 33,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49521264",
+      "title": "Invisible Companies",
+      "url": "https://colossus.com/article/invisible-companies/",
+      "source": "Hacker News",
+      "score": 13,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49541256",
+      "title": "Muse Spark 1.3",
+      "url": "https://developer.meta.com/ai/models/muse-spark/",
+      "source": "Hacker News",
+      "score": 613,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49548864",
+      "title": "9 Mothers (YC P26) Is Hiring in Austin, TX",
+      "url": "https://9mothers.com/careers",
+      "source": "Hacker News",
+      "score": 0,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49537553",
+      "title": "Gemini 3.8 Flash and 3.8 Flash Cyber",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/",
+      "source": "Hacker News",
+      "score": 1058,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49513721",
+      "title": "Fish Bad, Sugar Good and Other Medieval Ideas About Food",
+      "url": "https://lithub.com/fish-bad-sugar-good-and-other-medieval-ideas-about-food/",
+      "source": "Hacker News",
+      "score": 29,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49492796",
+      "title": "What I Learned from My Mom (1941-2026)",
+      "url": "https://experimentalliving.substack.com/p/what-i-learned-from-my-mom-1941-2026",
+      "source": "Hacker News",
+      "score": 50,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49537131",
+      "title": "Google avoids a breakup of its ad tech business",
+      "url": "https://www.nytimes.com/2026/09/02/technology/google-ad-tech-remedies.html",
+      "source": "Hacker News",
+      "score": 415,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49536375",
+      "title": "Three sites made 215,128 “best software” pages for AI. Perplexity cites them",
+      "url": "https://trellner.com/reports/manufactured-sources-behind-ai-recommendations/",
+      "source": "Hacker News",
+      "score": 448,
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49546800",
+      "title": "Three schoolgirls in Kinsale pulled up a pea plant covered in warts (2016)",
+      "url": "https://scienceblog.com/b-three-schoolgirls-in-kinsale-pulled-up-a-pea-plant-covered-in-warts-and-instead-of-binning-it-spent-three-years-testing-13000-seeds-in-a-spare-bedroom-the-bacteria-living-in-those-warts-made-barley/",
+      "source": "Hacker News",
+      "score": 88,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49511493",
+      "title": "The Computer Museum of America reclamation project",
+      "url": "https://computer-museum.org/wp/",
+      "source": "Hacker News",
+      "score": 57,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49508405",
+      "title": "Holden's Lightning Flight",
+      "url": "https://en.wikipedia.org/wiki/Holden%27s_Lightning_flight",
+      "source": "Hacker News",
+      "score": 175,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49535284",
+      "title": "Can I opt out of my input or output data being used for training?",
+      "url": "https://help.mistral.ai/en/articles/455207-can-i-opt-out-of-my-input-or-output-data-being-used-for-training",
+      "source": "Hacker News",
+      "score": 464,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49548530",
+      "title": "A dark horse enters China's AI race: StartLux",
+      "url": "https://chinaonchina.com/article/chen-dawei-returns-enters-the-large-model-sector",
+      "source": "Hacker News",
+      "score": 14,
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49541458",
+      "title": "Fable 5.1 World Modeling",
+      "url": "https://github.com/PhiloLabs/fable51-worlds",
+      "source": "Hacker News",
+      "score": 282,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49508608",
+      "title": "Reverse Engineering Unknown File Formats with ImHex",
+      "url": "https://werwolv.net/posts/file_format_reverse_engineering/",
+      "source": "Hacker News",
+      "score": 219,
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "hn-49543530",
+      "title": "Launch HN: RonanRX (YC S26) – Personalized Peptides and GLP-1s",
+      "url": "item?id=49543530",
+      "source": "Hacker News",
+      "score": 71,
+      "topic": "Other",
+      "sentiment": "positive"
+    },
+    {
+      "id": "gh-0-/fmtlib/fmt",
+      "title": "fmtlib / fmt",
+      "url": "https://github.com/fmtlib/fmt",
+      "source": "GitHub Trending",
+      "score": 24725,
+      "language": "C++",
+      "description": "A modern formatting library",
+      "topic": "Developer Tools",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-1-/mattpocock/skills",
+      "title": "mattpocock / skills",
+      "url": "https://github.com/mattpocock/skills",
+      "source": "GitHub Trending",
+      "score": 246161,
+      "language": "Shell",
+      "description": "Skills for Real Engineers. Straight from my .agents directory.",
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-2-/NousResearch/hermes-agent",
+      "title": "NousResearch / hermes-agent",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "source": "GitHub Trending",
+      "score": 240514,
+      "language": "Python",
+      "description": "The agent that grows with you",
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-3-/DietrichGebert/ponytail",
+      "title": "DietrichGebert / ponytail",
+      "url": "https://github.com/DietrichGebert/ponytail",
+      "source": "GitHub Trending",
+      "score": 122756,
+      "language": "JavaScript",
+      "description": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-4-/anthropics/skills",
+      "title": "anthropics / skills",
+      "url": "https://github.com/anthropics/skills",
+      "source": "GitHub Trending",
+      "score": 173411,
+      "language": "Python",
+      "description": "Public repository for Agent Skills",
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-5-/affaan-m/ECC",
+      "title": "affaan-m / ECC",
+      "url": "https://github.com/affaan-m/ECC",
+      "source": "GitHub Trending",
+      "score": 246713,
+      "language": "JavaScript",
+      "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-6-/JuliusBrussee/caveman",
+      "title": "JuliusBrussee / caveman",
+      "url": "https://github.com/JuliusBrussee/caveman",
+      "source": "GitHub Trending",
+      "score": 102888,
+      "language": "Go",
+      "description": "🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like caveman",
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-7-/blader/humanizer",
+      "title": "blader / humanizer",
+      "url": "https://github.com/blader/humanizer",
+      "source": "GitHub Trending",
+      "score": 41032,
+      "language": "Python",
+      "description": "Agent skill that removes signs of AI-generated writing from text",
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-8-/google-research/timesfm",
+      "title": "google-research / timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "source": "GitHub Trending",
+      "score": 30555,
+      "language": "Python",
+      "description": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting.",
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-9-/averygan/reclip",
+      "title": "averygan / reclip",
+      "url": "https://github.com/averygan/reclip",
+      "source": "GitHub Trending",
+      "score": 8163,
+      "language": "HTML",
+      "description": "Download videos from almost any website. Lightweight, self-hosted media downloader with a clean web UI.",
+      "topic": "Web & Product",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-10-/bannedbook/fanqiang",
+      "title": "bannedbook / fanqiang",
+      "url": "https://github.com/bannedbook/fanqiang",
+      "source": "GitHub Trending",
+      "score": 51895,
+      "language": "Kotlin",
+      "description": "翻墙-科学上网",
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-11-/addyosmani/agent-skills",
+      "title": "addyosmani / agent-skills",
+      "url": "https://github.com/addyosmani/agent-skills",
+      "source": "GitHub Trending",
+      "score": 91851,
+      "language": "JavaScript",
+      "description": "Production-grade engineering skills for AI coding agents.",
+      "topic": "AI & Agents",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-12-/ByteByteGoHq/system-design-101",
+      "title": "ByteByteGoHq / system-design-101",
+      "url": "https://github.com/ByteByteGoHq/system-design-101",
+      "source": "GitHub Trending",
+      "score": 88095,
+      "description": "Explain complex systems using visuals and simple terms. Help you prepare for system design interviews.",
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-13-/magnitudedev/magnitude",
+      "title": "magnitudedev / magnitude",
+      "url": "https://github.com/magnitudedev/magnitude",
+      "source": "GitHub Trending",
+      "score": 1763,
+      "language": "TypeScript",
+      "description": "Open source inference server that runs the best local models for your hardware, plugged into the agent you already use. Works with Pi, OpenCode, Hermes, OpenClaw, Codex, Claude Code, Oh My Pi, and Cline.",
+      "topic": "AI & Agents",
+      "sentiment": "positive"
+    },
+    {
+      "id": "gh-14-/Imbad0202/academic-research-skills",
+      "title": "Imbad0202 / academic-research-skills",
+      "url": "https://github.com/Imbad0202/academic-research-skills",
+      "source": "GitHub Trending",
+      "score": 45843,
+      "language": "Python",
+      "description": "Academic Research Skills for Claude Code: research → write → review → revise → finalize",
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-15-/Gitlawb/openclaude",
+      "title": "Gitlawb / openclaude",
+      "url": "https://github.com/Gitlawb/openclaude",
+      "source": "GitHub Trending",
+      "score": 32197,
+      "language": "TypeScript",
+      "description": "runs anywhere. uses anything",
+      "topic": "Other",
+      "sentiment": "neutral"
+    },
+    {
+      "id": "gh-16-/debpalash/VoiceStudio",
+      "title": "debpalash / VoiceStudio",
+      "url": "https://github.com/debpalash/VoiceStudio",
+      "source": "GitHub Trending",
+      "score": 15665,
+      "language": "Python",
+      "description": "VoiceStudio is the open-source, fully-local ElevenLabs alternative — voice cloning, voice design, video dubbing, dictation, transcription & audiobook creation in 646 languages.",
+      "topic": "Other",
+      "sentiment": "positive"
+    },
+    {
+      "id": "gh-17-/f/prompts.chat",
+      "title": "f / prompts.chat",
+      "url": "https://github.com/f/prompts.chat",
+      "source": "GitHub Trending",
+      "score": 168711,
+      "language": "HTML",
+      "description": "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source — self-host for your organization with complete privacy.",
+      "topic": "Security",
+      "sentiment": "positive"
+    },
+    {
+      "id": "gh-18-/obra/superpowers",
+      "title": "obra / superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "source": "GitHub Trending",
+      "score": 281106,
+      "language": "Shell",
+      "description": "An agentic skills framework & software development methodology that works.",
+      "topic": "Developer Tools",
+      "sentiment": "neutral"
+    }
+  ],
+  "summary": [
+    "Other leads this snapshot with 24 signals.",
+    "Python is the most visible language across trending repositories.",
+    "Highest-momentum item: “obra / superpowers” (281,106 points/stars)."
+  ]
+}
