@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ArrowUpRight, Check, Github, Search, Share2, Sparkles } from "lucide-react";
 import type { Signal, Snapshot } from "./types";
@@ -10,12 +10,20 @@ export default function App() {
   const [data, setData] = useState<Snapshot | null>(null); const [source, setSource] = useState("All"); const [query, setQuery] = useState("");
   const [localSignals, setLocalSignals] = useState<Signal[] | null>(null); const [localStatus, setLocalStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [localProgress, setLocalProgress] = useState(0); const [shared, setShared] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(8); const loadMoreRef = useRef<HTMLDivElement>(null);
   useEffect(() => { fetch(`${import.meta.env.BASE_URL}data/snapshot.json`).then(r => r.json()).then(setData); }, []);
   const signals = localSignals ?? data?.signals ?? [];
   const filtered = useMemo(() => signals.filter(s => (source === "All" || s.source === source) && `${s.title} ${s.description ?? ""}`.toLowerCase().includes(query.toLowerCase())), [signals, source, query]);
   const topics = group(filtered, "topic"); const languages = group(filtered.filter(x=>x.language), "language").slice(0,6); const sentiment = group(filtered, "sentiment");
   const sourceMax = filtered.reduce<Record<string, number>>((max, signal) => ({ ...max, [signal.source]: Math.max(max[signal.source] ?? 0, signal.score) }), {});
-  const top = [...filtered].sort((a,b)=>(b.score/(sourceMax[b.source]||1))-(a.score/(sourceMax[a.source]||1))).slice(0,8);
+  const ranked = [...filtered].sort((a,b)=>(b.score/(sourceMax[b.source]||1))-(a.score/(sourceMax[a.source]||1)));
+  const visibleSignals = ranked.slice(0, visibleCount);
+  useEffect(() => setVisibleCount(8), [source, query]);
+  useEffect(() => {
+    const target = loadMoreRef.current; if (!target || visibleCount >= filtered.length) return;
+    const observer = new IntersectionObserver(entries => { if (entries[0]?.isIntersecting) setVisibleCount(count => Math.min(count + 8, filtered.length)); }, { rootMargin: "280px" });
+    observer.observe(target); return () => observer.disconnect();
+  }, [visibleCount, filtered.length]);
   if (!data) return <main className="loading">Reading the signal…</main>;
   const positiveCount = signals.filter(signal => signal.sentiment === "positive").length;
   const negativeCount = signals.filter(signal => signal.sentiment === "negative").length;
@@ -59,7 +67,7 @@ export default function App() {
         <article><h3>Sentiment mix</h3><ResponsiveContainer width="100%" height={210}><PieChart><Pie data={sentiment} dataKey="value" innerRadius={55} outerRadius={82} paddingAngle={1}>{sentiment.map((_,i)=><Cell fill={colors[(i+3)%colors.length]} key={i}/>)}</Pie><Tooltip contentStyle={{background:"#f7f5ef",border:"1px solid #171914"}}/></PieChart></ResponsiveContainer><div className="legend">{sentiment.map((x,i)=><span key={x.name}><i style={{background:colors[(i+3)%colors.length]}}/>{x.name} {x.value}</span>)}</div></article>
         <article><h3>Trending languages</h3><ResponsiveContainer width="100%" height={230}><AreaChart data={languages}><defs><linearGradient id="g"><stop offset="0" stopColor="#1748d1" stopOpacity=".5"/><stop offset="1" stopColor="#1748d1" stopOpacity=".02"/></linearGradient></defs><XAxis dataKey="name" tick={{fill:"#62645e",fontSize:11}} axisLine={false} tickLine={false}/><YAxis hide/><Tooltip contentStyle={{background:"#f7f5ef",border:"1px solid #171914"}}/><Area type="monotone" dataKey="value" stroke="#1748d1" fill="url(#g)"/></AreaChart></ResponsiveContainer></article></div>
       </section>
-      <section id="signals" className="signals"><div className="section-head"><div><div className="section-label"><span>02 / Index</span></div><h2>Eight things worth opening</h2></div><div className="local-ai"><button onClick={runLocalAi} disabled={localStatus === "loading" || localStatus === "ready"}><Sparkles size={13}/>{localStatus === "loading" ? `Loading model ${localProgress}%` : localStatus === "ready" ? "Local AI active" : "Run free local AI"}</button>{localStatus === "loading" && <i><span style={{width:`${localProgress}%`}}/></i>}<small>{localStatus === "error" ? "Could not load the model. Click to retry." : "DistilBERT · no key · on your device"}</small></div></div><div className="signal-list">{top.map((s,i)=><a href={s.url} target="_blank" rel="noreferrer" key={s.id}><b>{String(i+1).padStart(2,"0")}</b><div><span className="source">{s.source}</span><h3>{s.title}</h3><p>{s.description || `${s.topic} signal from ${s.source}.`}</p>{s.aiTake&&<p className="ai-take"><span>AI take</span>{s.aiTake}{typeof s.confidence === "number" && <small>{Math.round(s.confidence*100)}% confidence</small>}</p>}<div><mark>{s.topic}</mark>{s.language&&<mark>{s.language}</mark>}</div></div><aside><strong>{s.score.toLocaleString()}</strong><small>{s.metric ?? (s.source==="Hacker News"?"points":"stars")}</small><ArrowUpRight/></aside></a>)}</div></section>
+      <section id="signals" className="signals"><div className="section-head"><div><div className="section-label"><span>02 / Index</span></div><h2>Signals worth opening</h2></div><div className="local-ai"><button onClick={runLocalAi} disabled={localStatus === "loading" || localStatus === "ready"}><Sparkles size={13}/>{localStatus === "loading" ? `Loading model ${localProgress}%` : localStatus === "ready" ? "Local AI active" : "Run free local AI"}</button>{localStatus === "loading" && <i><span style={{width:`${localProgress}%`}}/></i>}<small>{localStatus === "error" ? "Could not load the model. Click to retry." : "DistilBERT · no key · on your device"}</small></div></div><div className="signal-list">{visibleSignals.map((s,i)=><a href={s.url} target="_blank" rel="noreferrer" key={s.id}><b>{String(i+1).padStart(2,"0")}</b><div><span className="source">{s.source}</span><h3>{s.title}</h3><p>{s.description || `${s.topic} signal from ${s.source}.`}</p>{s.aiTake&&<p className="ai-take"><span>AI take</span>{s.aiTake}{typeof s.confidence === "number" && <small>{Math.round(s.confidence*100)}% confidence</small>}</p>}<div><mark>{s.topic}</mark>{s.language&&<mark>{s.language}</mark>}</div></div><aside><strong>{s.score.toLocaleString()}</strong><small>{s.metric ?? (s.source==="Hacker News"?"points":"stars")}</small><ArrowUpRight/></aside></a>)}</div><div className="load-more" ref={loadMoreRef}>{visibleCount < filtered.length ? <><i/><span>Scroll for more · {Math.min(visibleCount, filtered.length)} of {filtered.length}</span></> : <span>{filtered.length ? `All ${filtered.length} signals loaded` : "No signals match this filter"}</span>}</div></section>
     </main><footer><span>DevSignal</span><p>Built by Osama Ansar · Public data, collected responsibly.</p><a href="https://github.com/OsamaAnsar/devsignal">Source & methodology <ArrowUpRight size={14}/></a></footer>
   </div>;
 }
