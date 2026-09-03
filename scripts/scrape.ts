@@ -25,18 +25,48 @@ export function parseGitHubTrending(body: string): Signal[] {
   });
 }
 
-async function enhanceWithAi(signals: Signal[]): Promise<{ signals: Signal[]; summary: string[] } | null> {
+const AI_MODEL = "gpt-5-mini";
+const analysisSchema = {
+  type: "object", additionalProperties: false,
+  properties: {
+    items: { type: "array", items: {
+      type: "object", additionalProperties: false,
+      properties: {
+        id: { type: "string" }, topic: { type: "string" },
+        sentiment: { type: "string", enum: ["positive", "neutral", "negative"] },
+        aiTake: { type: "string" }, confidence: { type: "number", minimum: 0, maximum: 1 }
+      },
+      required: ["id", "topic", "sentiment", "aiTake", "confidence"]
+    } },
+    summary: { type: "array", minItems: 3, maxItems: 3, items: { type: "string" } }
+  },
+  required: ["items", "summary"]
+} as const;
+
+async function enhanceWithAi(signals: Signal[]): Promise<{ signals: Signal[]; summary: string[]; model: string } | null> {
   if (!process.env.OPENAI_API_KEY) return null;
   const client = new OpenAI();
-  const response = await client.responses.create({ model: "gpt-4.1-mini", input: `Analyze these technology signals. Return JSON with keys items (array of {id,topic,sentiment}) and summary (exactly 3 concise insights). Sentiment must be positive, neutral, or negative.\n${JSON.stringify(signals)}` });
-  try { const parsed = JSON.parse(response.output_text.replace(/^```json\s*|\s*```$/g, "")); const byId = new Map(parsed.items.map((x: any) => [x.id, x])); return { signals: signals.map(s => ({ ...s, ...(byId.get(s.id) ?? {}) })), summary: parsed.summary }; } catch { return null; }
+  try {
+    const response = await client.responses.create({
+      model: AI_MODEL, store: false,
+      instructions: "You are a restrained technology analyst. Classify only from the supplied data. Avoid hype. aiTake explains why a developer may care in one plain-English sentence under 22 words.",
+      input: JSON.stringify(signals.map(({ id, title, source, score, language, description }) => ({ id, title, source, score, language, description }))),
+      text: { format: { type: "json_schema", name: "developer_signal_analysis", strict: true, schema: analysisSchema } }
+    });
+    const parsed = JSON.parse(response.output_text) as { items: Array<Pick<Signal, "id" | "topic" | "sentiment" | "aiTake" | "confidence">>; summary: string[] };
+    const byId = new Map(parsed.items.map(item => [item.id, item]));
+    return { signals: signals.map(signal => ({ ...signal, ...(byId.get(signal.id) ?? {}) })), summary: parsed.summary, model: AI_MODEL };
+  } catch (error) {
+    console.warn("OpenAI enrichment failed; publishing deterministic analysis instead.", error);
+    return null;
+  }
 }
 
 async function main() {
   const settled = await Promise.allSettled([html("https://news.ycombinator.com/"), html("https://github.com/trending?since=daily")]);
   const signals = [settled[0].status === "fulfilled" ? parseHackerNews(settled[0].value) : [], settled[1].status === "fulfilled" ? parseGitHubTrending(settled[1].value) : []].flat();
   if (!signals.length) throw new Error("All scraper sources failed; preserving the previous snapshot.");
-  const ai = await enhanceWithAi(signals); const snapshot: Snapshot = { generatedAt: new Date().toISOString(), mode: ai ? "openai" : "deterministic", signals: ai?.signals ?? signals, summary: ai?.summary ?? summarize(signals) };
+  const ai = await enhanceWithAi(signals); const snapshot: Snapshot = { generatedAt: new Date().toISOString(), mode: ai ? "openai" : "deterministic", model: ai?.model, signals: ai?.signals ?? signals, summary: ai?.summary ?? summarize(signals) };
   await mkdir("public/data", { recursive: true }); await writeFile("public/data/snapshot.json", JSON.stringify(snapshot, null, 2) + "\n");
   console.log(`Collected ${signals.length} signals (${snapshot.mode} analysis).`);
 }
