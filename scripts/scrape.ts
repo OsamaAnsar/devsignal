@@ -87,6 +87,39 @@ export function parseInfoQFeed(body: string): Signal[] {
 }
 async function scrapeInfoQ(): Promise<Signal[]> { return parseInfoQFeed(await html("https://feed.infoq.com/")); }
 
+const youtubeChannels = [
+  ["freeCodeCamp.org", "UC8butISFwT-Wl7EV0hUK0BQ"],
+  ["Google for Developers", "UC_x5XG1OV2P6uZZ5FSM9Ttw"],
+  ["Traversy Media", "UC29ju8bIPH5as8OGnQzwJyA"],
+  ["ThePrimeagen", "UCUyeluBRhGPCW4rPe_UvBZQ"]
+] as const;
+
+export function parseYouTubeFeed(body: string, fallbackChannel = "YouTube"): Signal[] {
+  const $ = cheerio.load(body, { xmlMode: true });
+  return $("entry").toArray().map((entry, index) => {
+    const videoId = $(entry).find("yt\\:videoId").text().trim();
+    const channel = $(entry).find("author name").text().trim() || fallbackChannel;
+    const description = $(entry).find("media\\:description").text().replace(/\s+/g, " ").trim();
+    return makeSignal({ id: `youtube-${videoId}`, title: $(entry).find("title").first().text().trim(), url: `https://www.youtube.com/watch?v=${videoId}`, source: "YouTube", score: Math.max(1, 15 - index), metric: "rank", description: `${channel}${description ? ` · ${description.slice(0, 220)}` : ""}`, kind: "video", imageUrl: $(entry).find("media\\:thumbnail").attr("url"), publishedAt: $(entry).find("published").text().trim() });
+  }).filter(signal => signal.id !== "youtube-" && signal.title);
+}
+
+type YouTubeSearch = { items?: Array<{ id: { videoId?: string }; snippet: { title: string; description?: string; channelTitle: string; publishedAt: string; thumbnails?: { medium?: { url: string } } } }> };
+type YouTubeVideos = { items?: Array<{ id: string; statistics?: { viewCount?: string } }> };
+async function scrapeYouTube(): Promise<Signal[]> {
+  if (!process.env.YOUTUBE_API_KEY) {
+    const feeds = await Promise.allSettled(youtubeChannels.map(async ([channel, id]) => parseYouTubeFeed(await html(`https://www.youtube.com/feeds/videos.xml?channel_id=${id}`), channel).slice(0, 5)));
+    return feeds.flatMap(result => result.status === "fulfilled" ? result.value : []).sort((a, b) => Date.parse(b.publishedAt ?? "") - Date.parse(a.publishedAt ?? "")).slice(0, 15).map((signal, index) => ({ ...signal, score: 15 - index }));
+  }
+  const key = encodeURIComponent(process.env.YOUTUBE_API_KEY);
+  const query = encodeURIComponent("software development programming AI");
+  const search = await json<YouTubeSearch>(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&order=date&maxResults=15&relevanceLanguage=en&q=${query}&key=${key}`);
+  const ids = (search.items ?? []).map(item => item.id.videoId).filter((id): id is string => Boolean(id));
+  const stats = ids.length ? await json<YouTubeVideos>(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${ids.join(",")}&key=${key}`) : { items: [] };
+  const views = new Map((stats.items ?? []).map(item => [item.id, Number(item.statistics?.viewCount ?? 0)]));
+  return (search.items ?? []).flatMap(item => { const id = item.id.videoId; if (!id) return []; return [makeSignal({ id: `youtube-${id}`, title: item.snippet.title.replaceAll("&amp;", "&").replaceAll("&#39;", "'"), url: `https://www.youtube.com/watch?v=${id}`, source: "YouTube", score: views.get(id) ?? 0, metric: "views", description: `${item.snippet.channelTitle} · ${item.snippet.description ?? ""}`.slice(0, 280), kind: "video", imageUrl: item.snippet.thumbnails?.medium?.url, publishedAt: item.snippet.publishedAt })]; });
+}
+
 type XSearch = { data?: Array<{ id: string; text: string; public_metrics?: { like_count: number; repost_count: number; reply_count: number } }> };
 async function scrapeX(): Promise<Signal[]> {
   if (!process.env.X_BEARER_TOKEN) return [];
@@ -138,7 +171,7 @@ async function main() {
     ["GitHub Trending", html("https://github.com/trending?since=daily").then(parseGitHubTrending)],
     ["Reddit", scrapeReddit()],
     ["npm Registry", scrapeNpm()], ["DEV Community", scrapeDev()], ["Lobsters", scrapeLobsters()],
-    ["arXiv", scrapeArxiv()], ["Stack Overflow", scrapeStackOverflow()], ["InfoQ", scrapeInfoQ()], ["X", scrapeX()]
+    ["arXiv", scrapeArxiv()], ["Stack Overflow", scrapeStackOverflow()], ["InfoQ", scrapeInfoQ()], ["YouTube", scrapeYouTube()], ["X", scrapeX()]
   ];
   const settled = await Promise.allSettled(tasks.map(([, task]) => task));
   const signals = settled.flatMap((result, index) => { if (result.status === "fulfilled") { console.log(`${tasks[index][0]}: ${result.value.length} signals`); return result.value; } console.warn(`${tasks[index][0]} failed:`, result.reason); return []; });

@@ -6,13 +6,14 @@
 
 **A quieter way to read the developer internet.**
 
-DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, arXiv, Stack Overflow, InfoQ, and optional Reddit/X feeds; turns the results into typed technology signals; and presents the daily picture through an editorial React dashboard. It supports both scheduled OpenAI enrichment and free, private AI inference in the browser.
+DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, arXiv, Stack Overflow, InfoQ, YouTube developer channels, and optional Reddit/X feeds; turns the results into typed technology signals; and presents the daily picture through an editorial React dashboard. It supports both scheduled OpenAI enrichment and free, private AI inference in the browser.
 
 **[Open the live dashboard →](https://osamaansar.github.io/devsignal/)**
 
 ## What it does
 
-- Collects public signals from Hacker News, GitHub Trending, npm Registry, DEV Community, Lobsters, arXiv, Stack Overflow, and InfoQ without credentials.
+- Collects public signals from Hacker News, GitHub Trending, npm Registry, DEV Community, Lobsters, arXiv, Stack Overflow, InfoQ, and curated YouTube channel feeds without credentials.
+- Shows video thumbnails and direct watch links. An optional YouTube API key replaces the curated feed with fresh developer-video search and view counts.
 - Supports Reddit through its OAuth Data API and X through its recent-search API when their optional credentials are configured.
 - Normalizes titles, descriptions, source scores, languages, topics, and sentiment into one JSON snapshot.
 - Visualizes topic momentum, sentiment distribution, trending languages, and the highest-momentum signals.
@@ -38,6 +39,7 @@ The local model is downloaded on first use and cached by the browser. Headlines 
 ```text
 HN · GitHub · npm ─────────┐
 DEV · Lobsters · InfoQ ────┼─ TypeScript collectors ─→ normalized signals
+YouTube feeds / API ───────┤
 arXiv · Stack Overflow ────┤                          │
 Reddit · X* ───────────────┘                          │
                                                     ├─ OpenAI (optional, Actions secret)
@@ -79,6 +81,10 @@ For GitHub Pages, create an Actions repository secret named `OPENAI_API_KEY`. Th
 ### Optional Reddit and X sources
 
 Reddit requires `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET`. X requires `X_BEARER_TOKEN`. Add these as GitHub Actions secrets to activate the corresponding collectors. Missing credentials simply skip those sources; they never break the remaining daily scrape.
+
+### Optional YouTube API search
+
+YouTube works without credentials by reading the public feeds for selected developer channels. To expand it to recent developer-video search with view counts, enable the YouTube Data API in Google Cloud and add its key as a GitHub Actions secret named `YOUTUBE_API_KEY`. The key is used only during the scheduled scrape and is never published to the browser.
 
 ## Commands
 
