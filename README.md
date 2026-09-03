@@ -15,14 +15,15 @@ DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, a
 - Collects public signals from Hacker News, GitHub Trending, npm Registry, DEV Community, Lobsters, arXiv, Stack Overflow, InfoQ, and curated YouTube channel feeds without credentials.
 - Shows video thumbnails and direct watch links. An optional YouTube API key replaces the curated feed with fresh developer-video search and view counts.
 - Supports Reddit through its OAuth Data API and X through its recent-search API when their optional credentials are configured.
-- Normalizes titles, descriptions, source scores, languages, topics, and sentiment into one JSON snapshot.
-- Visualizes topic momentum, sentiment distribution, trending languages, and the highest-momentum signals.
+- Normalizes titles, descriptions, source scores, languages, topics, and story tone into one JSON snapshot.
+- Visualizes topic momentum, concrete story types, trending languages, and the highest-momentum signals.
 - Connects related items across sources into evidence-backed technology clusters.
 - Maps clusters on an interactive radar using cross-source reach and normalized momentum.
 - Stores up to 90 daily observations so real rising and cooling trends can emerge over time.
 - Lets visitors search and filter the daily index.
 - Runs a quantized DistilBERT model locally through Transformers.js when **Run free local AI** is selected.
-- Recalculates sentiment, confidence scores, per-item AI takes, the briefing, and the **AI Signal Pulse** on-device.
+- Classifies wording into announcements/progress, general updates, or problems/risks; it does not rate whether a technology is good or bad.
+- Recalculates story type, confidence scores, per-item AI takes, and the briefing on-device.
 - Creates a shareable daily brief with the Web Share API or clipboard fallback.
 - Optionally uses the OpenAI Responses API during the scheduled data pipeline for richer server-side analysis.
 - Refreshes and deploys automatically with GitHub Actions and GitHub Pages.
@@ -31,9 +32,9 @@ DevSignal collects Hacker News, GitHub Trending, npm, DEV Community, Lobsters, a
 
 | Mode | Where it runs | Key required | What it produces |
 | --- | --- | --- | --- |
-| Local AI | Visitor's browser | No | Sentiment, confidence, AI takes, and a reactive signal pulse |
-| OpenAI | GitHub Actions | `OPENAI_API_KEY` | Semantic topics, sentiment, AI takes, confidence, and three briefing insights |
-| Rules fallback | Data pipeline | No | Transparent keyword topics, sentiment, and summary statistics |
+| Local AI | Visitor's browser | No | Story-type wording, confidence, AI takes, and a reactive briefing |
+| OpenAI | GitHub Actions | `OPENAI_API_KEY` | Semantic topics, story-type wording, AI takes, confidence, and three briefing insights |
+| Rules fallback | Data pipeline | No | Transparent keyword topics, story types, and summary statistics |
 
 The local model is downloaded on first use and cached by the browser. Headlines stay on the visitor's device during local inference.
 
