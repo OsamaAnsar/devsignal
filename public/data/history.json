@@ -5,15 +5,15 @@
     "trends": [
       {
         "name": "AI agents",
-        "momentum": 62,
+        "momentum": 63,
         "sources": 7,
         "items": 65
       },
       {
         "name": "Language models",
-        "momentum": 62,
+        "momentum": 63,
         "sources": 7,
-        "items": 25
+        "items": 24
       },
       {
         "name": "Security",
