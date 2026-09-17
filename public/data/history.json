@@ -670,5 +670,53 @@
         "items": 4
       }
     ]
+  },
+  {
+    "date": "2026-09-17",
+    "total": 145,
+    "trends": [
+      {
+        "name": "Language models",
+        "momentum": 72,
+        "sources": 7,
+        "items": 17
+      },
+      {
+        "name": "AI agents",
+        "momentum": 63,
+        "sources": 8,
+        "items": 67
+      },
+      {
+        "name": "Cloud infrastructure",
+        "momentum": 55,
+        "sources": 5,
+        "items": 10
+      },
+      {
+        "name": "Databases",
+        "momentum": 44,
+        "sources": 3,
+        "items": 3
+      },
+      {
+        "name": "React ecosystem",
+        "momentum": 40,
+        "sources": 4,
+        "items": 12
+      },
+      {
+        "name": "Developer tooling",
+        "momentum": 38,
+        "sources": 3,
+        "items": 8
+      },
+      {
+        "name": "Security",
+        "momentum": 37,
+        "sources": 5,
+        "items": 6
+      }
+    ]
   }
 ]
