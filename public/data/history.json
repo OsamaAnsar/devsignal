@@ -2494,5 +2494,53 @@
         "items": 3
       }
     ]
+  },
+  {
+    "date": "2026-10-25",
+    "total": 135,
+    "trends": [
+      {
+        "name": "Language models",
+        "momentum": 67,
+        "sources": 6,
+        "items": 22
+      },
+      {
+        "name": "Cloud infrastructure",
+        "momentum": 65,
+        "sources": 4,
+        "items": 8
+      },
+      {
+        "name": "Databases",
+        "momentum": 62,
+        "sources": 2,
+        "items": 2
+      },
+      {
+        "name": "AI agents",
+        "momentum": 59,
+        "sources": 8,
+        "items": 57
+      },
+      {
+        "name": "Security",
+        "momentum": 52,
+        "sources": 4,
+        "items": 6
+      },
+      {
+        "name": "Open source",
+        "momentum": 45,
+        "sources": 3,
+        "items": 10
+      },
+      {
+        "name": "Developer tooling",
+        "momentum": 41,
+        "sources": 4,
+        "items": 8
+      }
+    ]
   }
 ]
